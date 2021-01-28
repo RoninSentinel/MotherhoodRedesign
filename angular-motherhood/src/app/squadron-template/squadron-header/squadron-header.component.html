@@ -1,0 +1,122 @@
+
+    <h1>AOR 1 Motherhood Days</h1>
+    <br><br>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-1 top-bar"><h2>Day Shift</h2><br></div>
+        
+        <div class="col-sm-3 top-bar pr-0" > 
+          <span>Date: {{ time | date: 'dd-MMM-yyyy' }}</span>
+          &nbsp; &nbsp; &nbsp;
+          <span>Time: {{ time | date: 'HH:mm' }}</span>
+         
+            <script>
+              var today = new Date();
+            var dd = ("0" + (today.getDate())).slice(-2);
+            var mm = ("0" + (today.getMonth() +　1)).slice(-2);
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd ;
+            $("#todays-date").attr("value", today);
+            </script>
+        </div>
+        <div class="col-sm-2 top-bar">  <form>
+          <div class="row">
+            MCC:
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Name">
+            </div>
+          </div>
+        </form></div>
+        <div class="col-sm-2 top-bar">
+          <form>
+          <div class="row">
+            MCC-B:
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Name">
+            </div>
+          </div>
+        </form></div>
+        <div class="col-md-1 top-bar"> Edit Mode: <label class="switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label></div>
+        
+        <div class="col-sm-1 top-bar"> <button type="button" class="btn btn-success">Publish</button></div>
+        <div class="col-sm-1 top-bar"> <button type="button" class="btn btn-danger">New Shift</button></div>
+        
+        
+        
+                    <div class="col-sm-1 top-bar">
+                    <nav class="navbar mb-4">
+            
+                    <!-- Navbar brand -->
+                    
+                    <a class="navbar-brand"></a>
+            
+                    <!-- Collapse button -->
+                    <button class="navbar-toggler second-button" type="button" data-toggle="collapse" data-target="#navbarContent"
+                        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation" onclick="myFunction()">
+                        <div class="animated-icon2"><span></span><span></span><span></span><span></span></div>
+                    </button>
+                   
+            
+                    <!-- Collapsible content -->
+                    <div class="collapse navbar-collapse" id="navbarContent">
+            
+                        <!-- Links -->
+                        <ul class="navbar-nav mr-auto" style="float: right;text-align: left;">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" routerLink="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Forum</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" routerLink="/motherhood-home/:squadron/settings">Settings</a>
+                        </li>
+                        </ul>
+                        <!-- Links -->
+            
+                    </div>
+                    <!-- Collapsible content -->
+            
+                    </nav>
+                </div>
+      </div>
+      <div class="container-fluid col-md-12">
+        <!-- <div class="row justify-content-left">
+          <div class="container-fluid col-sm-10 d-flex justify-content-left p-1">
+            
+          <div class="col-sm-1 dark">Zulu Creech:</div>
+          <div class="col-sm-1 dark">0730-0830</div>
+          <div class="col-sm-1 dark">0830-0930</div>
+          <div class="col-sm-1 dark">0930-1030</div>
+          <div class="col-sm-1 dark">1030-1130</div>
+          <div class="col-sm-1 dark">1130-1230</div>
+          <div class="col-sm-1 dark">1230-1330</div>
+          <div class="col-sm-1 dark">1330-1430</div>
+          <div class="col-sm-1 dark">1430-1530</div>
+          <div class="col-sm-1 dark">1530-1630</div>
+        
+          </div>
+          <div class="container-fluid col-sm-2 d-flex justify-content-left p-1"></div>
+        </div> -->
+        
+          <div class="row d-flex justify-content-center">
+            <div class="container col-md-10 d-flex justify-content-center p-2">
+              <div class="col-sm-1 pr-1"><button type="button" class="btn btn-primary p-3">Presets</button></div>
+              <div class="col-sm-1 pr-1"><button type="button" class="btn btn-success p-3">Transit</button></div>
+              <div class="col-sm-1 pr-1"><button type="button" class="btn btn-warning p-3">Target</button></div>
+              <div class="col-sm-1 pr-2"><button type="button" class="btn p-3" style="background-color: pink;">Training</button></div>
+              <div class="col-sm-1 pr-1"><button type="button" class="btn  p-3" style="background-color: darkgray;">Down</button></div>
+              <div class="col-sm-1 pr-1"><button type="button" class="btn btn-danger p-3">Malfunction</button></div>
+            </div>
+        </div>
+     
+      
+    </div>
+</div>
+

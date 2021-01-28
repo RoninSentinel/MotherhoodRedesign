@@ -1,0 +1,26 @@
+<form [formGroup]="crewMemberTypeSettingsForm" (ngSubmit)="onSubmit()"> 
+    <h5>Current Crew Member Types</h5>
+  
+    <div class="mx-auto" style="width: 70px;" *ngIf="isLoading; else elseBlock">
+      <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+      <mat-selection-list #crewMemberTypeList [multiple]="false" (selectionChange)="crewMemberTypeSelectedFromList(crewMemberTypeList.selectedOptions.selected[0].value)">
+        <mat-list-option *ngFor="let crewMemberType of crewMemberTypes" [value]="crewMemberType.name">
+          {{crewMemberType.name}}
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-template>
+  
+  
+    <div class="form-group mt-4">
+      <label>Crew Member Type Name</label>
+      <input [class.is-invalid]="crewMemberTypeName.invalid && crewMemberTypeName.touched && !crewMemberTypeName.errors?.forbiddenName" class="form-control" formControlName="crewMemberTypeName" type="text" required [autoFocus]="true">
+      <small *ngIf="crewMemberTypeName.invalid && crewMemberTypeName.touched && !crewMemberTypeName.errors?.forbiddenName" class="text-danger">Crew Member Type name is required.</small>
+      <small *ngIf="crewMemberTypeName.errors?.forbiddenName" class="text-info">Only unique names can be added.</small>
+    </div>
+  
+    <button type="button" class="btn btn-primary mr-3" [disabled]="crewMemberTypeSettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+    <button type="button" class="btn btn-danger" (dblclick)="onDelete()" [disabled]="!editingPermissionsEnabled">Delete</button>
+  </form>

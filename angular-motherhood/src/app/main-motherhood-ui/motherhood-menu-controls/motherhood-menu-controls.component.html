@@ -1,0 +1,78 @@
+
+<mat-form-field style="margin-right: 20px;"
+               [hidden]="!showTokenInput">
+    <mat-label>Token</mat-label>
+    <input matInput 
+           #adminToken
+           (keyup)="checkIfValidTokenCode(adminToken.value)"
+           autocomplete="off"
+           placeholder="Code">
+</mat-form-field>
+
+<mat-slide-toggle #editModeToggle
+     style="margin-right: 20px;"
+    [checked]="editMode"
+    [disabled]="editModeToggleDisabled || isLoading"
+    (click)="checkForEditPermissions()"
+    (change)="toggleEditMode(editModeToggle.checked)">
+    <mat-icon>edit</mat-icon>
+</mat-slide-toggle>
+
+<button *ngIf="motherhoodShiftSchedule" 
+         type="button" 
+         class="btn btn-primary" 
+         style="margin-right: 20px;"
+         matTooltip="Edits will not be saved until published."
+        (click)="publish($event)" 
+        [disabled]="!editMode || isLoading">Publish
+</button>
+
+<button *ngIf="!motherhoodShiftSchedule" 
+         type="button" 
+         class="btn btn-primary" 
+         style="margin-right: 20px;"
+         matTooltip="Creates all the required shift records."
+        (click)="create($event)" 
+        [disabled]="!editMode || isLoading">New</button>
+
+<button type="button" 
+        class="btn btn-secondary" 
+        style="margin-right: 20px;"
+        (click)="clear($event)"
+        [disabled]="!allowClear() || isLoading">Clear
+</button>
+
+<button type="button" 
+        class="btn btn-danger"
+        style="margin-right: 20px;" 
+        matTooltip="Deletes all records related to this shift's schedule (double-click)."
+        matTooltipPosition="above"
+        (dblclick)="delete($event)"
+        [disabled]="!editMode || isLoading || !motherhoodShiftSchedule">Delete
+</button>
+
+<mat-slide-toggle #darkModeToggle
+    (change)="onDarkModeSwitched($event)">
+    <mat-icon>bedtime</mat-icon>
+</mat-slide-toggle>
+
+
+        <!--
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu options" [disabled]="!editMode">
+    <mat-icon>menu</mat-icon>
+</button>
+
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item
+            (click)="navigateMenu('settings')">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+    </button>
+
+    <button mat-menu-item>
+        <mat-icon>help</mat-icon>
+        <span>Tutorials</span>
+    </button>
+</mat-menu>
+-->

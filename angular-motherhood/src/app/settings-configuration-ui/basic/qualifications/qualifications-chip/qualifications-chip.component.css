@@ -1,0 +1,17 @@
+.qualifications-chip-list {
+    width: 100%;
+}
+
+input.mat-chip-input {
+    width: 100%;
+    margin: 4px;
+    flex: 1 0 150px;
+}
+
+.mat-input-element {
+    /* Re-implement the Bootstrap properties that gets overwritten by angular material */
+    border: 1px solid #ced4da;
+    color: #495057;
+    padding: .375rem .75rem;
+    width: 100%;
+}

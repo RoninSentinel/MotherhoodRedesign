@@ -1,0 +1,18 @@
+.squadron-wrapper{
+  height:250%;
+    /* background-color: rgb(61, 61, 61); */
+    /* background-image: linear-gradient(rgb(10, 10, 10), rgb(177, 1, 1)); */
+}
+
+body{
+  color: white
+}
+
+.whole-container-1 {
+  background: linear-gradient(rgb(10, 10, 10), rgb(177, 1, 1));
+  
+}
+
+.whole-container-2 {
+  background: linear-gradient(rgb(10, 10, 10), rgb(165, 164, 164));
+}

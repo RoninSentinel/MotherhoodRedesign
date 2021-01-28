@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-column-select {
+    flex: none;
+    width: 50px;
+}
+
+.clickable:hover {
+  background-color: #ddd;
+}

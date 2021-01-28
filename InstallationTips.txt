@@ -1,0 +1,16 @@
+To Access API on Server
+Ex: http://143.110.131.163:732/api/shift-template-instances
+
+Configure URL and Ports
+1. place files in var/www/html folder
+2. Ensure files can be access in the virtual host file
+   --Go to etc/apache2/sites-available/000-default.conf, ensure document root is pointing to /var/www/html/
+3. Enable API on port 732
+   --Open the etc/apache/port.conf insert Listen 732
+   --Create virtual host file for laravel with <VirtualHost *:732>
+
+
+
+Commands
+php artisan migrate --path=/database/migrations/2020_09_17_000843_create_crew_member_shift_line_time_blocks_table.php
+php artisan migrate --path=/database/migrations/2020_09_14_031944_create_block_categories_table.php

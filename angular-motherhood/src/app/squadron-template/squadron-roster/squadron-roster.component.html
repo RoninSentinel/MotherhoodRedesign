@@ -1,0 +1,23 @@
+<div class="container text-center">
+
+  
+  <br>
+  <h2>Pilots</h2>
+  <form class="form-inline md-form form-sm">
+    <input class="form-control form-control-sm ml-3 w-40 pr-3" type="text" placeholder="Search" aria-label="Search">&nbsp;&nbsp;&nbsp;
+      <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="basic">Add</button>
+  </form>
+  <br>
+    <app-roster-table></app-roster-table>
+
+    <br>
+    <br>
+    <h2>Sensors</h2>
+    <form class="form-inline md-form form-sm">
+      <input class="form-control form-control-sm ml-3 w-40 pr-3" type="text" placeholder="Search" aria-label="Search">&nbsp;&nbsp;&nbsp;
+        <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="basic">Add</button>
+    </form>
+    <br>
+    <app-sensor-table></app-sensor-table>
+    
+  </div>

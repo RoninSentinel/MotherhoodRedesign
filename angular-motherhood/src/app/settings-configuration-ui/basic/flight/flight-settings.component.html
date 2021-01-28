@@ -1,0 +1,106 @@
+<form [formGroup]="flightSettingsForm" (ngSubmit)="onSubmit()"> 
+    <h5>Current Flights</h5>
+  
+    <div class="mx-auto" style="width: 70px;" *ngIf="isLoading; else elseBlock">
+      <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null; autoFillFormAfterRowSelection(selection.isSelected(row))"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+          <td mat-footer-cell *matFooterCellDef><button type="button" class="btn btn-danger" [disabled]="!selection.hasValue() || !editingPermissionsEnabled" (dblclick)="onDelete()">Delete</button></td>
+        </ng-container>
+      
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let flight"> {{flight.id}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Flight Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Flight </th>
+          <td mat-cell *matCellDef="let flight"> {{flight.name}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Squadron ID Column -->
+        <ng-container matColumnDef="squadron_id">
+          <th mat-header-cell *matHeaderCellDef> Squadron </th>
+          <td mat-cell *matCellDef="let flight"> {{flight.squadron_id | uppercase}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Team Name Column -->
+        <ng-container matColumnDef="team_name">
+          <th mat-header-cell *matHeaderCellDef> Team </th>
+          <td mat-cell *matCellDef="let flight"> {{flight.team?.name}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row); autoFillFormAfterRowSelection(selection.isSelected(row))">
+        </tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+
+    </ng-template>
+  
+  
+    <div class="form-group mt-4">
+      <label>ID Number</label>
+      <input class="form-control" formControlName="flightID" type="text" (blur)="updateFlightFormAfterIDSelected()" [autoFocus]="true" placeholder="Provide only if updating a record.">
+      <small *ngIf="flightID.errors?.invalidID && flightID.touched && flightID.value" class="text-info">ID not available for update.</small>
+    </div>
+
+    <div class="form-group mt-4">
+      <label>Flight*</label>
+      <input [class.is-invalid]="flightName.invalid && flightName.touched && !flightName.errors?.forbiddenName" class="form-control" formControlName="flightName" type="text" required>
+      <small *ngIf="flightName.invalid && flightName.touched && !flightName.errors?.forbiddenName" class="text-danger">Flight is required.</small>
+      <small *ngIf="flightName.errors?.forbiddenName" class="text-info">Only unique names can be added.</small>
+    </div>
+
+    <div class="form-group mt-4">
+      <label>Squadron*</label>
+      <input [class.is-invalid]="flightSquadronID.invalid && flightSquadronID.touched" class="form-control" formControlName="flightSquadronID" type="text" required readonly>
+      <small *ngIf="flightSquadronID.invalid && flightSquadronID.touched" class="text-danger">Squadron is required.</small>
+    </div>
+
+    <div class="form-group mt-4">
+      <label for="flightTeamName">Team</label>
+      <select class="form-control" formControlName="flightTeamName">
+        <option></option>
+        <option *ngFor="let team_name of teamNamesAvailableForSelection">
+          {{team_name}}
+        </option>
+      </select>
+    </div>
+  
+    <div class="form-group mt-4">
+      <button type="button" class="btn btn-secondary" [disabled]="flightSettingsForm.invalid && flightID.errors?.invalidID || !flightID.value || !editingPermissionsEnabled" (click)="onUpdate()">Update</button>
+      <button type="button" class="btn btn-primary ml-2" [disabled]="flightSettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+    </div>
+
+    <small class="text-info">* indicates a required field.</small>
+
+    <!--{{flights | json}}-->
+  
+  </form>

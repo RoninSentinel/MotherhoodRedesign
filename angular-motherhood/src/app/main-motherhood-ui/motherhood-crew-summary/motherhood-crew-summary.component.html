@@ -1,0 +1,27 @@
+<app-fade [show]="crewMemberScheduledBlocks">
+    <div class="row mt-3 mb-5 justify-content-center">
+
+        <table class="lines-table mt-3">
+            <tbody>
+                <tr *ngFor="let crewMemberScheduledBlock of crewMemberScheduledBlocks">
+
+                    <td matTooltip="{{getLastNameForScheduledBlock(crewMemberScheduledBlock)}}"
+                        matTooltipPosition="right">{{getLastNameForScheduledBlock(crewMemberScheduledBlock)}}</td> 
+
+                        <ng-container *ngFor="let timeBlock of crewMemberScheduledBlock.crewMemberShiftLineTimeBlocks; index as timeBlockIndex;">
+
+                            <td [ngClass]="{'highlight': (timeBlockIndex==currentTimeIndex)}"
+                                [ngStyle]="{'background-color': timeBlock?.line_template_color ? timeBlock?.line_template_color : 'inherit'}"
+                                [style.color]="getPreferredTextColor(timeBlock?.line_template_color)">{{timeBlock?.line_template_name}}</td>
+
+                        </ng-container> 
+                    
+                    <td>{{crewMemberScheduledBlock?.crewMember?.crew_member_type_id | titlecase}}</td>
+                </tr>
+                
+            </tbody>
+
+        </table>
+
+    </div>
+</app-fade>

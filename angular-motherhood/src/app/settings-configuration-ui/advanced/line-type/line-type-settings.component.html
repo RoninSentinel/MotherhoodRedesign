@@ -1,0 +1,26 @@
+<form [formGroup]="lineTypeSettingsForm" (ngSubmit)="onSubmit()"> 
+    <h5>Current Line Types</h5>
+  
+    <div class="mx-auto" style="width: 70px;" *ngIf="isLoading; else elseBlock">
+      <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+      <mat-selection-list #lineTypeList [multiple]="false" (selectionChange)="lineTypeSelectedFromList(lineTypeList.selectedOptions.selected[0].value)">
+        <mat-list-option *ngFor="let lineType of lineTypes" [value]="lineType.name">
+          {{lineType.name}}
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-template>
+  
+  
+    <div class="form-group mt-4">
+      <label>Line Type Name</label>
+      <input [class.is-invalid]="lineTypeName.invalid && lineTypeName.touched && !lineTypeName.errors?.forbiddenName" class="form-control" formControlName="lineTypeName" type="text" required [autoFocus]="true">
+      <small *ngIf="lineTypeName.invalid && lineTypeName.touched && !lineTypeName.errors?.forbiddenName" class="text-danger">Line Type name is required.</small>
+      <small *ngIf="lineTypeName.errors?.forbiddenName" class="text-info">Only unique names can be added.</small>
+    </div>
+  
+    <button type="button" class="btn btn-primary mr-3" [disabled]="lineTypeSettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+    <button type="button" class="btn btn-danger" (dblclick)="onDelete()" [disabled]="!editingPermissionsEnabled">Delete</button>
+  </form>

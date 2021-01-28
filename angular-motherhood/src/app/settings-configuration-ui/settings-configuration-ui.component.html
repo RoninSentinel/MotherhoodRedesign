@@ -1,0 +1,75 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Return to previous page." (click)="backClicked()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+
+    <span>{{currentSquadron | uppercase}}: Settings</span>
+    <span class="toolbar-spacer"></span>
+
+</mat-toolbar>
+
+<div class="container">
+
+    <div class="row mt-2">
+        <div class="nav flex-column nav-pills col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <p>Basic Configuration</p>
+            <a class="nav-link active" id="block-categories-tab" data-toggle="pill" href="#block-categories" role="tab" aria-controls="v-pills-block-categories" aria-selected="true">Block Categories</a>
+            <a class="nav-link" id="crew-members-tab" data-toggle="pill" href="#crew-members" role="tab" aria-controls="v-pills-crew-members" aria-selected="false">Crew Members</a>
+            <a class="nav-link" id="flights-tab" data-toggle="pill" href="#flights" role="tab" aria-controls="v-pills-flights" aria-selected="false">Flights</a>
+            <a class="nav-link" id="line-templates-tab" data-toggle="pill" href="#line-templates" role="tab" aria-controls="v-pills-line-templates" aria-selected="false">Line Templates</a>
+            <a class="nav-link" id="password-manager-tab" data-toggle="pill" href="#password-manager" role="tab" aria-controls="v-pills-password-manager" aria-selected="false">Password Manager</a>
+            <a class="nav-link" id="shift-templates-tab" data-toggle="pill" href="#shift-templates" role="tab" aria-controls="v-pills-shift-templates" aria-selected="false">Shift Templates</a>
+            <a class="nav-link" id="teams-tab" data-toggle="pill" href="#teams" role="tab" aria-controls="v-pills-teams" aria-selected="false">Teams</a>
+
+            <p style="margin-top: 30px;">Advanced Configuration</p>
+            <a class="nav-link" id="aors-tab" data-toggle="pill" href="#aors" role="tab" aria-controls="v-pills-aors" aria-selected="false">AORs</a>
+            <a class="nav-link" id="crew-members-tab" data-toggle="pill" href="#crew-member-types" role="tab" aria-controls="v-pills-crew-members" aria-selected="false">Crew Member Types</a>
+            <a class="nav-link" id="line-types-tab" data-toggle="pill" href="#line-types" role="tab" aria-controls="v-pills-line-types" aria-selected="false">Line Types</a>
+            <a class="nav-link" id="qualification-types-tab" data-toggle="pill" href="#qualification-types" role="tab" aria-controls="v-pills-qualification-types" aria-selected="false">Qualification Types</a>
+            <a class="nav-link" id="squadrons-tab" data-toggle="pill" href="#squadrons" role="tab" aria-controls="v-pills-squadrons" aria-selected="false">Squadrons</a>
+            
+        </div>
+
+        <div class="tab-content col-10" id="v-pills-tabContent">
+            <!-- Basic -->
+            <div class="tab-pane fade show active" id="block-categories" role="tabpanel" aria-labelledby="block-categories-tab">
+                <block-category-settings [accessLevel]="accessLevel"></block-category-settings>
+            </div>
+            <div class="tab-pane fade" id="crew-members" role="tabpanel" aria-labelledby="crew-members-tab">
+                <crew-member-settings [accessLevel]="accessLevel"></crew-member-settings>
+            </div>
+            <div class="tab-pane fade" id="flights" role="tabpanel" aria-labelledby="flights-tab">
+                <flight-settings [accessLevel]="accessLevel"></flight-settings>
+            </div>
+            <div class="tab-pane fade" id="line-templates" role="tabpanel" aria-labelledby="line-templates-tab">
+                <line-template-settings [accessLevel]="accessLevel"></line-template-settings>
+            </div>
+            <div class="tab-pane fade" id="password-manager" role="tabpanel" aria-labelledby="password-manager-tab">
+                <password-manager-settings [accessLevel]="accessLevel"></password-manager-settings>
+            </div>
+            <div class="tab-pane fade" id="shift-templates" role="tabpanel" aria-labelledby="shift-templates-tab">
+                <shift-template-settings [accessLevel]="accessLevel"></shift-template-settings>
+            </div>
+            <div class="tab-pane fade" id="teams" role="tabpanel" aria-labelledby="teams-tab">
+                <team-settings [accessLevel]="accessLevel"></team-settings>
+            </div>
+
+            <!-- Advanced -->
+            <div class="tab-pane fade" id="aors" role="tabpanel" aria-labelledby="aors-tab">
+                <aor-settings [accessLevel]="accessLevel"></aor-settings>
+            </div>
+            <div class="tab-pane fade" id="crew-member-types" role="tabpanel" aria-labelledby="crew-member-types-tab">
+                <crew-member-type-settings [accessLevel]="accessLevel"></crew-member-type-settings>
+            </div>
+            <div class="tab-pane fade" id="line-types" role="tabpanel" aria-labelledby="line-types-tab">
+                <line-type-settings [accessLevel]="accessLevel"></line-type-settings>
+            </div>
+            <div class="tab-pane fade" id="qualification-types" role="tabpanel" aria-labelledby="qualification-types-tab">
+                <qualification-type-settings [accessLevel]="accessLevel"></qualification-type-settings>
+            </div>
+            <div class="tab-pane fade" id="squadrons" role="tabpanel" aria-labelledby="squadrons-tab">
+                <squadron-settings [accessLevel]="accessLevel"></squadron-settings>
+            </div>
+        </div>
+    </div>
+</div>

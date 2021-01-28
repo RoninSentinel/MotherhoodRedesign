@@ -1,0 +1,66 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$angular-motherhood-primary: mat-palette($mat-blue-grey);
+$angular-motherhood-accent: mat-palette($mat-grey);
+$angular-motherhood-warn: mat-palette($mat-red);
+
+$angular-motherhood-primary-dark: mat-palette($mat-grey, 800, 700, 900);
+$angular-motherhood-accent-dark: mat-palette($mat-orange);
+$angular-motherhood-warn-dark: mat-palette($mat-red);
+
+$angular-motherhood-theme: mat-light-theme((
+  color: (
+    primary: $angular-motherhood-primary,
+    accent: $angular-motherhood-accent,
+    warn: $angular-motherhood-warn,
+  )
+));
+
+@mixin shift-hours-table-component-theme($angular-motherhood-theme) {
+  $background: map-get($angular-motherhood-theme, background);
+  $background-color: map-get($background, background);
+
+  #shift-hours-table {
+    background-color: $background-color;
+  }
+}
+
+@include angular-material-theme($angular-motherhood-theme);
+@include shift-hours-table-component-theme($angular-motherhood-theme);
+
+
+$angular-motherhood-theme-dark: mat-dark-theme((
+  color: (
+    primary: $angular-motherhood-primary-dark,
+    accent: $angular-motherhood-accent-dark,
+    warn: $angular-motherhood-warn-dark,
+  )
+));
+
+@mixin shift-hours-table-component-theme-dark($angular-motherhood-theme-dark) {
+  $background: map-get($angular-motherhood-theme-dark, background);
+  $background-color: map-get($background, background);
+
+  #shift-hours-table {
+    background-color: $background-color;
+  }
+}
+
+.theme-dark {
+  @include angular-material-theme($angular-motherhood-theme-dark);
+  @include shift-hours-table-component-theme-dark($angular-motherhood-theme-dark);
+}
+
+

@@ -1,0 +1,93 @@
+<app-fade [show]="flightOrders?.length > 0">
+    <div class="flight-order-rosters-container" [hidden]="flightOrders?.length == 0">
+
+        <div class="flight-order-roster" *ngFor="let dataSource of dataSources; index as i" [hidden]="dataSource.data.length == 0">
+            <label>{{crewMemberTypes[i].name | titlecase}} Flight Orders: {{dataSource.data.length}} Total</label>
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+                <!-- Remove Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let flightOrder">
+                        <button mat-icon-button 
+                                color="warn" 
+                                aria-label="Remove flight order from roster."
+                                matTooltip="Must have 0 hours to remove (double-click)"
+                                matTooltipPosition="right"
+                                [disabled]="(flightOrder?.total_hours_scheduled > 0) || !editMode"
+                                (dblclick)="removeCrewMemberFromFlightOrders(flightOrder?.crew_member_id); disabled=true;">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+            
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let flightOrder"> {{flightOrder.id}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+            
+                <!-- Rank Column -->
+                <ng-container matColumnDef="rank">
+                    <th mat-header-cell *matHeaderCellDef> Rank </th>
+                    <td mat-cell *matCellDef="let flightOrder"> {{flightOrder.crew_member.rank}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+        
+                <!-- Last Name Column -->
+                <ng-container matColumnDef="last_name">
+                    <th mat-header-cell *matHeaderCellDef class="selectable" [ngClass]="{'text-info': !callSignPreference}" (click)="lastNamePreferenceClick()"> Name </th>
+                    <td mat-cell 
+                        *matCellDef="let flightOrder" 
+                        style="padding-right: 10px;"
+                        matTooltip="{{'Crew member id: ' + flightOrder.crew_member_id}}"
+                        matTooltipPosition="left"> {{flightOrder.crew_member.last_name}}<ng-container *ngIf="flightOrder.crew_member.first_name">,</ng-container> {{flightOrder.crew_member.first_name}} {{flightOrder.crew_member.middle_initial}}</td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+        
+                <!-- Call Sign Column -->
+                <ng-container matColumnDef="call_sign">
+                    <th mat-header-cell *matHeaderCellDef class="selectable" [ngClass]="{'text-info': callSignPreference}" (click)="callSignPreferenceClick()"> Call Sign </th>
+                    <td mat-cell *matCellDef="let flightOrder"> {{flightOrder.crew_member.call_sign}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <!-- Total Scheduled Hours -->
+                <ng-container matColumnDef="total_hours_scheduled">
+                    <th mat-header-cell *matHeaderCellDef> Hrs </th>
+                    <td mat-cell *matCellDef="let flightOrder"> {{flightOrder.total_hours_scheduled}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <!-- Qualifications Column -->
+                <ng-container matColumnDef="qualifications">
+                    <th mat-header-cell *matHeaderCellDef> Quals </th>
+
+                    <td mat-cell *matCellDef="let flightOrder">
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let qualification of flightOrder.crew_member.qualifications">
+                                {{qualification.qualification_type.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </td>
+
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+        
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row 
+                *matRowDef="let row; columns: displayedColumns;"
+                    [ngClass]="{'clickable': editMode}"
+                    (click)="flightOrderSelectedOnRowClick(row)"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        
+            </table>
+
+        </div>
+
+    </div>
+</app-fade>    

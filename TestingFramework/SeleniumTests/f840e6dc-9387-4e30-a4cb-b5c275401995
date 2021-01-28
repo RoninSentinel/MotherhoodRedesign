@@ -1,0 +1,343 @@
+{
+  "id": "48a421d2-0f67-4665-a50c-fa535adf436a",
+  "version": "2.0",
+  "name": "Motherhood Test Suite",
+  "url": "https://paetz.me",
+  "tests": [{
+    "id": "8fa23ee6-9a20-43de-ae5f-6929607bee31",
+    "name": "Top Nav",
+    "commands": [{
+      "id": "5d2fca0a-36d0-4784-9161-15b110129c68",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "22fc1af0-499b-4709-b7af-7eb74f878ece",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "982x830",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "15ad611d-aabf-4265-8736-b022448c5d0c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=https://paetz.me/motherhood/867atks/days",
+      "targets": [
+        ["linkText=https://paetz.me/motherhood/867atks/days", "linkText"],
+        ["css=p:nth-child(5) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'https://paetz.me/motherhood/867atks/days')]", "xpath:link"],
+        ["xpath=//article[@id='post-2']/div/div/p[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'https://paetz.me/motherhood/867atks/days')]", "xpath:href"],
+        ["xpath=//p[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'https://paetz.me/motherhood/867atks/days')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "358353d9-7714-47cd-bff5-84f8eb797d4e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mat-toolbar > .mat-focus-indicator .mat-icon",
+      "targets": [
+        ["css=.mat-toolbar > .mat-focus-indicator .mat-icon", "css:finder"],
+        ["xpath=//mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'menu')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "652ff9c8-77ac-4368-93e2-eb2ca0cf56fa",
+      "comment": "",
+      "command": "click",
+      "target": "css=#mat-slide-toggle-1 .mat-slide-toggle-thumb",
+      "targets": [
+        ["css=#mat-slide-toggle-1 .mat-slide-toggle-thumb", "css:finder"],
+        ["xpath=//mat-slide-toggle[@id='mat-slide-toggle-1']/label/div/div/div", "xpath:idRelative"],
+        ["xpath=//label/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "40be8188-ae6b-44b8-83fa-8e428f01e5c8",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.mat-toolbar > .mat-focus-indicator .mat-icon",
+      "targets": [
+        ["css=.mat-toolbar > .mat-focus-indicator .mat-icon", "css:finder"],
+        ["xpath=//mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'menu')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c90dec38-0611-4963-8261-3d658e362773",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cdk-focused .mat-icon",
+      "targets": [
+        ["css=.cdk-focused .mat-icon", "css:finder"],
+        ["xpath=//mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'menu')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e3f7d18-ee89-4143-8708-c3df70bfef9f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cdk-focused .mat-icon",
+      "targets": [
+        ["css=.cdk-focused .mat-icon", "css:finder"],
+        ["xpath=//mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'keyboard_arrow_left')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5a5efa5-1468-4aa6-b7d0-4a222ca785c6",
+      "comment": "",
+      "command": "click",
+      "target": "css=#mat-slide-toggle-3 .mat-icon",
+      "targets": [
+        ["css=#mat-slide-toggle-3 .mat-icon", "css:finder"],
+        ["xpath=//mat-slide-toggle[@id='mat-slide-toggle-3']/label/span/mat-icon", "xpath:idRelative"],
+        ["xpath=//label/span/mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'edit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a68ec722-8347-4f2f-918b-26a5b7c934bf",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'New')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ac48d9e-5ff1-46a7-bcba-ea107aae8c1c",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'New')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d676ece3-d918-47ff-9d55-f52c18deaf91",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "12ddf87b-4d06-4d64-9675-08d95636d472",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b49d355a-62d3-4d73-8239-d1960a2db47e",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Publish')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7ff018da-1984-4ffa-aa6c-a8cef1820ad5",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Publish')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6523896-8051-4cef-a97f-216e28d1f038",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3128de13-de33-4745-9ad8-4eba220a7d1c",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ac89e4da-03f2-4bfe-a531-58bd86a81c7f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#mat-slide-toggle-4 .mat-slide-toggle-bar",
+      "targets": [
+        ["css=#mat-slide-toggle-4 .mat-slide-toggle-bar", "css:finder"],
+        ["xpath=//mat-slide-toggle[@id='mat-slide-toggle-4']/label/div", "xpath:idRelative"],
+        ["xpath=//mat-slide-toggle[2]/label/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2723563a-cf8a-480b-bfe9-05e4c041704f",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8171daa4-9318-4fc7-bdf9-e9234e0c8c39",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5aafd2b2-033b-47b2-b959-f97e05abd056",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Publish')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ef6d6b4-6649-4c75-937a-24c35931ebc1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Publish')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7be86901-b5a3-4563-9f25-2d8cb7d39d9b",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//motherhood-menu-controls/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Publish')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c2038b05-4d53-4347-8dcf-d1b80130346f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Clear')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2855f2ce-2c5c-4e74-b7bd-e5088af149fa",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4da07c2a-1d77-4702-81ac-0a9e7ed25ffd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "49af9c10-e5b3-44c8-91b9-6a423c2fdce1",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn-danger",
+      "targets": [
+        ["css=.btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0c54d49a-a098-4854-a954-380e97ff7784",
+      "comment": "",
+      "command": "click",
+      "target": "css=#mat-slide-toggle-4 .mat-slide-toggle-thumb",
+      "targets": [
+        ["css=#mat-slide-toggle-4 .mat-slide-toggle-thumb", "css:finder"],
+        ["xpath=//mat-slide-toggle[@id='mat-slide-toggle-4']/label/div/div/div", "xpath:idRelative"],
+        ["xpath=//mat-slide-toggle[2]/label/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "5187fff2-443e-447d-bbfb-50154c7826b8",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["8fa23ee6-9a20-43de-ae5f-6929607bee31"]
+  }],
+  "urls": ["https://paetz.me/"],
+  "plugins": []
+}

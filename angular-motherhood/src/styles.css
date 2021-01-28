@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.dts-no-select {
+    user-select: none; 
+}
+  
+.dts-select-box {
+    background: rgba(125, 218, 252, 0.3);
+    border: 2px solid currentColor;
+    contain: layout;
+    transform: translateZ(0);
+    box-sizing: border-box;
+    color: #7ddafc;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1; 
+}
+
+.dts-select-box.dts-removing {
+    background: rgba(125, 218, 252, 0.3);
+    border: 2px solid #7ddafc; 
+}
+  
+.dts-select-container:not(.dts-custom) .dts-select-item.selected {
+    border: none;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 10px 0 rgba(0, 0, 0, 0.1); 
+}
+  
+.dts-select-container:not(.dts-custom) .dts-select-item.dts-range-start {
+    border: none; 
+}
+
+.close {
+    outline: none !important;
+    outline-style: none !important;
+}

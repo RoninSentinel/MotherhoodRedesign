@@ -1,0 +1,215 @@
+<form [formGroup]="crewMemberSettingsForm" (ngSubmit)="onSubmit()"> 
+  <h5>Current Crew Members</h5>
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Searches across all columns." #input>
+  </mat-form-field>
+
+  <div class="mx-auto" style="width: 70px;" [hidden]="!isLoading">
+    <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+  </div>
+
+  <!-- https://stackoverflow.com/questions/46893164/mat-table-sorting-demo-not-working -->
+  <div [hidden]="isLoading">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null; autoFillFormAfterRowSelection(selection.isSelected(row))"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+        <td mat-footer-cell *matFooterCellDef><button type="button" class="btn btn-danger" [disabled]="!selection.hasValue() || !editingPermissionsEnabled" (dblclick)="onDelete()">Delete</button></td>
+      </ng-container>
+    
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.id}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+    
+      <!-- Rank Column -->
+      <ng-container matColumnDef="rank">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Rank </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.rank}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Last Name Column -->
+      <ng-container matColumnDef="last_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.last_name}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- First Name Column -->
+      <ng-container matColumnDef="first_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.first_name}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Middle Initial Column -->
+      <ng-container matColumnDef="middle_initial">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Middle Initial </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.middle_initial}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Last Name Column -->
+      <ng-container matColumnDef="call_sign">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Call Sign </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.call_sign}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Crew Member Type (Crew Position) Column -->
+      <ng-container matColumnDef="crew_member_type_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Crew Position </th>
+        <td mat-cell *matCellDef="let crewMember"> {{crewMember.crew_member_type_id}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Squadron ID Column -->
+      <ng-container matColumnDef="squadron_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Squadron </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.squadron_id | uppercase}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Flight Name Column -->
+      <ng-container matColumnDef="flight_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Flight </th>
+          <td mat-cell *matCellDef="let crewMember"> {{crewMember.flight?.name}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Team Name Column -->
+      <ng-container matColumnDef="team_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Team </th>
+        <td mat-cell *matCellDef="let crewMember"> {{crewMember.flight?.team?.name}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row); autoFillFormAfterRowSelection(selection.isSelected(row))">
+      </tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+  </div>
+
+
+  <div class="form-group mt-4">
+    <label>ID Number</label>
+    <input class="form-control" formControlName="crewMemberID" type="text" (blur)="updateCrewMemberFormAfterIDSelected()" [autoFocus]="true" placeholder="Provide only if updating a record.">
+    <small *ngIf="crewMemberID.errors?.invalidID && crewMemberID.touched && crewMemberID.value" class="text-info">ID not available for update.</small>
+  </div>
+
+  <div class="form-group mt-4">
+    <label>Rank</label>
+    <!--<input class="form-control" formControlName="crewMemberRank" type="text">-->
+
+    <select class="form-control" formControlName="crewMemberRank">
+      <option></option>
+
+      <option>AB</option>
+      <option>Amn</option>
+      <option>A1C</option>
+      <option>SrA</option>
+      <option>SSgt</option>
+      <option>TSgt</option>
+      <option>MSgt</option>
+      <option>SMSgt</option>
+      <option>CMSgt</option>
+
+      <option>Lt</option>
+      <option>Capt</option>
+      <option>Maj</option>
+      <option>Lt Col</option>
+      <option>Col</option>
+    </select>
+  </div>
+
+  <div class="form-group mt-4">
+      <label>Last Name*</label>
+      <input [class.is-invalid]="crewMemberLastName.invalid && crewMemberLastName.touched" class="form-control" formControlName="crewMemberLastName" type="text" required>
+      <small *ngIf="crewMemberLastName.invalid && crewMemberLastName.touched" class="text-danger">Last Name is required.</small>
+  </div>
+
+  <div class="form-group mt-4">
+      <label>First Name</label>
+      <input class="form-control" formControlName="crewMemberFirstName" type="text">
+  </div>
+
+  <div class="form-group mt-4">
+      <label>Middle Initial</label>
+      <input class="form-control" formControlName="crewMemberMiddleInitial" type="text">
+  </div>
+
+  <div class="form-group mt-4">
+      <label>Call Sign</label>
+      <input class="form-control" formControlName="crewMemberCallSign" type="text">
+  </div>
+
+  <div class="form-group mt-4">
+    <label for="crewMemberCrewMemberTypeID">Crew Position*</label>
+    <select [class.is-invalid]="crewMemberCrewMemberTypeID.invalid && crewMemberCrewMemberTypeID.touched" class="form-control" formControlName="crewMemberCrewMemberTypeID" required>
+      <option></option>
+      <option *ngFor="let crew_member_type of crewMemberTypesAvailableForSelection">
+        {{crew_member_type}}
+      </option>
+    </select>
+    <small *ngIf="crewMemberCrewMemberTypeID.invalid && crewMemberCrewMemberTypeID.touched" class="text-danger">Crew position is required.</small>
+  </div>
+
+  <div class="form-group mt-4">
+    <label>Squadron*</label>
+    <input [class.is-invalid]="crewMemberSquadronID.invalid && crewMemberSquadronID.touched" class="form-control" formControlName="crewMemberSquadronID" type="text" required readonly>
+    <small *ngIf="crewMemberSquadronID.invalid && crewMemberSquadronID.touched" class="text-danger">Squadron is required.</small>
+  </div>
+  
+  <div class="form-group mt-4">
+    <label for="crewMemberFlightName">Flight</label>
+    <select class="form-control" formControlName="crewMemberFlightName">
+      <option></option>
+      <option *ngFor="let flight_name of flightNamesAvailableForSelection">
+        {{flight_name}}
+      </option>
+    </select>
+  </div>
+
+  <form *ngIf="!crewMemberID.errors?.invalidID && crewMemberID.value && crewMemberCrewMemberTypeID.value">
+    <qualifications-chip [currentCrewMemberID]="crewMemberID.value" [crewMemberTypeID]="crewMemberCrewMemberTypeID.value"></qualifications-chip>
+  </form>
+
+  <div class="form-group mt-4">
+    <button type="button" class="btn btn-secondary" [disabled]="crewMemberID.errors?.invalidID || !crewMemberID.value || !editingPermissionsEnabled" (click)="onUpdate()">Update</button>
+    <button type="button" class="btn btn-primary ml-2" [disabled]="crewMemberSettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+  </div>
+
+  <small class="text-info">* indicates a required field.</small>
+
+  <!--{{selection | json}}-->
+</form>

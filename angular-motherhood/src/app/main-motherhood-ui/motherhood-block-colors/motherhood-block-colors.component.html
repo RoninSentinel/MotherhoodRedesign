@@ -1,0 +1,48 @@
+<app-fade [show]="!isLoading">
+  <mat-grid-list cols="{{blockCategories?.length + 3}}" rowHeight="50px" [hidden]="isLoading">
+
+    <mat-grid-tile
+      [colspan]="1"
+      [rowspan]="1"
+    >
+    </mat-grid-tile>
+
+    <mat-grid-tile
+        *ngFor="let blockCategory of blockCategories"
+        [colspan]="1"
+        [rowspan]="1"
+    >
+        <button type="button" 
+                *ngIf="blockCategory.is_active"
+                class="btn btn-sm btn-secondary" 
+                (click)="blockCategoryButtonClicked(blockCategory)"
+                [style.background-color]="getButtonBackgroundColor(blockCategory)"
+                [style.color]="getPreferredTextColor(blockCategory)"
+                [disabled]="!editMode">
+            {{blockCategory.short_name}}
+        </button>
+
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="1"
+      [rowspan]="1"
+    >
+      <button mat-icon-button 
+          color="primary" 
+          (click)="blockCategoryButtonClicked(null)"
+          [disabled]="!editMode"
+          aria-label="Reset color.">
+        <mat-icon>block</mat-icon>
+      </button>
+
+    </mat-grid-tile>
+
+    <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="1"
+      >
+    </mat-grid-tile>
+
+  </mat-grid-list>
+</app-fade>

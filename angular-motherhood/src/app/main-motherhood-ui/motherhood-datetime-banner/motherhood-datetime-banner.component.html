@@ -1,0 +1,54 @@
+
+
+  <div class="row">
+    <div class="col-3">
+      
+    </div>
+
+    <div class="col-3">
+      <form [formGroup]="shiftDateForm">
+        <small>UTC/Zulu Date <span class="text-right float-right">{{ currentTime | date: 'HH:mm' }} local / {{ currentTime | date: 'HH:mm' : 'UTC' }}z</span></small>
+        <mat-form-field>
+          <input matInput 
+                formControlName="shiftDate" 
+                (dateChange)="updateShiftDate();"
+                [matDatepicker]="datePicker"
+                required 
+                disabled>
+          <mat-datepicker-toggle matSuffix [for]="datePicker" style="color: #17a2b8"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <small *ngIf="shiftDate.invalid && shiftDate.touched" class="text-danger">Date is required.</small>
+      </form>
+    </div>
+
+    <div class="col-1">
+      
+    </div>
+
+    <div class="col-2">
+      <small>MCC</small>
+      <mat-form-field>
+        <input matInput
+              placeholder=" "
+              [ngModel]="mcc" 
+              disabled>
+      </mat-form-field>
+    </div>
+
+    <div class="col-2">
+      <small>MCC-B</small>
+      <mat-form-field>
+        <input matInput 
+               placeholder=" "
+               [ngModel]="mccB" 
+               disabled>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+            
+
+
+

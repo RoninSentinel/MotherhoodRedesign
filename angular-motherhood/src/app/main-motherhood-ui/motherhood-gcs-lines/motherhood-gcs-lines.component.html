@@ -1,0 +1,191 @@
+<div class="row mt-0 justify-content-center">
+    <app-fade [show]="motherhoodShiftSchedule?.line_instances?.length > 0">
+        <ng-container *ngFor="let lineInstance of motherhoodShiftSchedule?.line_instances; index as lineInstanceIndex">
+
+            <dts-select-container
+                #container="dts-select-container"
+                [(selectedItems)]="selectedCrewMemberShiftLineTimeBlocks"
+                (select)="onSelectCrewMemberShiftLineTimeBlock($event)"
+            >
+
+                <table class="lines-table mt-3" [hidden]="lineInstance.line_template.is_hidden_in_read_mode && !editMode">
+                    <tbody>
+                        <!-- Pilot -->
+                        <tr>
+                            <td [style.background-color]="lineInstance.line_template.color"
+                                [style.color]="getPreferredTextColor(lineInstance.line_template.color)"
+                                matTooltip="{{lineInstance.line_template.name}}"
+                                matTooltipPosition="right"><input [ngModel]="lineInstance.line_template.name"
+                                                                  [disabled]="true"></td> 
+
+                            <ng-container *ngFor="let shiftLineTimeBlock of lineInstance.shift_line_time_blocks; index as shiftLineTimeBlockIndex">
+                                <ng-container *ngFor="let crewMemberShiftLineTimeBlock of shiftLineTimeBlock.crew_member_shift_line_time_blocks; index as crewMemberShiftLineTimeBlocksIndex">
+                                    <td *ngIf="crewMemberShiftLineTimeBlock.position == 0"
+                                        matTooltip="{{shiftLineTimeBlock.start_time | date: 'HH:mm'}} - {{shiftLineTimeBlock.end_time | date: 'HH:mm'}}"
+                                        [dtsSelectItem]="crewMemberShiftLineTimeBlock"
+                                        [ngClass]="{'highlight': shiftLineTimeBlockIndex==currentTimeIndex}"
+                                        [style.background-color]="shiftLineTimeBlock.block_category?.color ? shiftLineTimeBlock.block_category?.color : 'inherit'">
+                                        <!--[dtsSelectItem]="crewMemberShiftLineTimeBlock"-->
+                                        <!-- Display the name only if the previous name on the same row is not a match. -->
+                                        <input #crewName
+                                            [disabled]="!editMode"
+                                            [style.border]="0"
+                                            [style.color]="getPreferredTextColor(shiftLineTimeBlock.block_category?.color)"
+                                            [ngModel]="(crewMemberShiftLineTimeBlock.crew_member?.last_name && (lineInstance.shift_line_time_blocks[shiftLineTimeBlockIndex-1]?.crew_member_shift_line_time_blocks[crewMemberShiftLineTimeBlocksIndex]?.crew_member?.last_name != crewMemberShiftLineTimeBlock.crew_member?.last_name)) ? getLastNameForBlock(crewMemberShiftLineTimeBlock) : null"
+                                            (change)="onCrewMemberChange(crewName.value, crewMemberShiftLineTimeBlock.id, lineInstanceIndex, shiftLineTimeBlockIndex, crewMemberShiftLineTimeBlocksIndex); crewName.value=nullOrSpecialChar(crewName.value)"
+                                            [ngModelOptions]="{updateOn: 'blur'}">
+                                            <!--{{crewMemberShiftLineTimeBlock.crew_member?.last_name}} // {{(lineInstance.shift_line_time_blocks[shiftLineTimeBlockIndex-1]?.crew_member_shift_line_time_blocks[crewMemberShiftLineTimeBlocksIndex]?.crew_member?.last_name != crewMemberShiftLineTimeBlock.crew_member?.last_name)}}-->
+                                            <!--{{(crewMemberShiftLineTimeBlock.crew_member?.last_name && (lineInstance.shift_line_time_blocks[shiftLineTimeBlockIndex-1]?.crew_member_shift_line_time_blocks[crewMemberShiftLineTimeBlocksIndex]?.crew_member?.last_name != crewMemberShiftLineTimeBlock.crew_member?.last_name)) ? crewMemberShiftLineTimeBlock.crew_member?.last_name : null}}-->
+                                    </td> 
+                                </ng-container>
+                                
+                            </ng-container>
+                            
+                            <td [style.background-color]="lineInstance.line_template.color"
+                                [style.color]="getPreferredTextColor(lineInstance.line_template.color)">{{lineInstance.line_template.call_sign}}</td>
+                        </tr>
+                    
+                        <!-- Sensor Operator -->
+                        <tr>
+                            <td [style.background-color]="lineInstance.line_template.color"
+                                [style.color]="getPreferredTextColor(lineInstance.line_template.color)">{{lineInstance.line_template.line_type_id}}</td> 
+
+                                <ng-container *ngFor="let shiftLineTimeBlock of lineInstance.shift_line_time_blocks; index as shiftLineTimeBlockIndex">
+                                    <ng-container *ngFor="let crewMemberShiftLineTimeBlock of shiftLineTimeBlock.crew_member_shift_line_time_blocks; index as crewMemberShiftLineTimeBlocksIndex">
+                                        <td *ngIf="crewMemberShiftLineTimeBlock.position == 1"
+                                            matTooltip="{{shiftLineTimeBlock.start_time | date: 'HH:mm'}} - {{shiftLineTimeBlock.end_time | date: 'HH:mm'}}"
+                                            [dtsSelectItem]="crewMemberShiftLineTimeBlock"
+                                            [ngClass]="{'highlight': shiftLineTimeBlockIndex==currentTimeIndex}"
+                                            [style.background-color]="shiftLineTimeBlock.block_category?.color ? shiftLineTimeBlock.block_category?.color : 'inherit'">
+                                            <!--[dtsSelectItem]="crewMemberShiftLineTimeBlock"-->
+                                            <!-- Display the name only if the previous name on the same row is not a match. -->
+                                            <input #crewName
+                                                [disabled]="!editMode"
+                                                [style.border]="0"
+                                                [style.color]="getPreferredTextColor(shiftLineTimeBlock.block_category?.color)"
+                                                [ngModel]="(crewMemberShiftLineTimeBlock.crew_member?.last_name && (lineInstance.shift_line_time_blocks[shiftLineTimeBlockIndex-1]?.crew_member_shift_line_time_blocks[crewMemberShiftLineTimeBlocksIndex]?.crew_member?.last_name != crewMemberShiftLineTimeBlock.crew_member?.last_name)) ? crewMemberShiftLineTimeBlock.crew_member?.last_name : null"
+                                                (change)="onCrewMemberChange(crewName.value, crewMemberShiftLineTimeBlock.id, lineInstanceIndex, shiftLineTimeBlockIndex, crewMemberShiftLineTimeBlocksIndex); crewName.value=nullOrSpecialChar(crewName.value)"
+                                                [ngModelOptions]="{updateOn: 'blur'}">
+                                                <!--{{crewMemberShiftLineTimeBlock.crew_member?.last_name}}-->
+                                        </td> 
+                                    </ng-container>
+                                </ng-container>
+
+                            <td [style.background-color]="lineInstance.line_template.color"
+                                [style.color]="getPreferredTextColor(lineInstance.line_template.color)">{{lineInstance.line_template.aor_id}}</td>
+                        </tr>
+                
+                        <!-- IP -->
+                        <tr [hidden]="isRowEmpty(lineInstance, 2) && !editMode">
+                            <td>{{lineInstance.line_template.extra_field_name}}</td> 
+
+                            <ng-container *ngFor="let shiftLineTimeBlock of lineInstance.shift_line_time_blocks; index as shiftLineTimeBlockIndex">
+                                <ng-container *ngFor="let crewMemberShiftLineTimeBlock of shiftLineTimeBlock.crew_member_shift_line_time_blocks; index as crewMemberShiftLineTimeBlocksIndex">
+                                    <td *ngIf="crewMemberShiftLineTimeBlock.position == 2"
+                                        [ngClass]="{'highlight': shiftLineTimeBlockIndex==currentTimeIndex}"
+                                        matTooltip="{{shiftLineTimeBlock.start_time | date: 'HH:mm'}} - {{shiftLineTimeBlock.end_time | date: 'HH:mm'}}"
+                                    >
+                                        
+                                        <input #crewName
+                                            [disabled]="!editMode"
+                                            [style.border]="0"
+                                            [ngModel]="(crewMemberShiftLineTimeBlock.crew_member?.last_name && (lineInstance.shift_line_time_blocks[shiftLineTimeBlockIndex-1]?.crew_member_shift_line_time_blocks[crewMemberShiftLineTimeBlocksIndex]?.crew_member?.last_name != crewMemberShiftLineTimeBlock.crew_member?.last_name)) ? crewMemberShiftLineTimeBlock.crew_member?.last_name : null"
+                                            (change)="onCrewMemberChange(crewName.value, crewMemberShiftLineTimeBlock.id, lineInstanceIndex, shiftLineTimeBlockIndex, crewMemberShiftLineTimeBlocksIndex); crewName.value=nullOrSpecialChar(crewName.value)"
+                                            [ngModelOptions]="{updateOn: 'blur'}">
+                                    
+                                    </td> 
+                                </ng-container>
+                            </ng-container>
+
+                            <td></td>
+                        </tr>
+
+                        <!-- ISO -->
+                        <tr [hidden]="isRowEmpty(lineInstance, 3) && !editMode">
+                            <td></td> 
+
+                            <ng-container *ngFor="let shiftLineTimeBlock of lineInstance.shift_line_time_blocks; index as shiftLineTimeBlockIndex">
+                                <ng-container *ngFor="let crewMemberShiftLineTimeBlock of shiftLineTimeBlock.crew_member_shift_line_time_blocks; index as crewMemberShiftLineTimeBlocksIndex">
+                                    <td *ngIf="crewMemberShiftLineTimeBlock.position == 3"
+                                        [ngClass]="{'highlight': shiftLineTimeBlockIndex==currentTimeIndex}"
+                                        matTooltip="{{shiftLineTimeBlock.start_time | date: 'HH:mm'}} - {{shiftLineTimeBlock.end_time | date: 'HH:mm'}}"
+                                    >
+                                        
+                                        <input #crewName
+                                            [disabled]="!editMode"
+                                            [style.border]="0"
+                                            [ngModel]="(crewMemberShiftLineTimeBlock.crew_member?.last_name && (lineInstance.shift_line_time_blocks[shiftLineTimeBlockIndex-1]?.crew_member_shift_line_time_blocks[crewMemberShiftLineTimeBlocksIndex]?.crew_member?.last_name != crewMemberShiftLineTimeBlock.crew_member?.last_name)) ? crewMemberShiftLineTimeBlock.crew_member?.last_name : null"
+                                            (change)="onCrewMemberChange(crewName.value, crewMemberShiftLineTimeBlock.id, lineInstanceIndex, shiftLineTimeBlockIndex, crewMemberShiftLineTimeBlocksIndex); crewName.value=nullOrSpecialChar(crewName.value)"
+                                            [ngModelOptions]="{updateOn: 'blur'}">
+                                    
+                                    </td> 
+                                </ng-container>
+                            </ng-container>
+
+                            <td class="button-cell">
+                                <button mat-icon-button 
+                                    matTooltip="Toggles visibility in read-only mode."
+                                    matTooltipPosition="left"
+                                    color="accent" 
+                                    aria-label="Visibility option."
+                                    [hidden]="!editMode"
+                                    (click)="toggleLineVisibility(lineInstance)">
+                                    
+                                        <mat-icon *ngIf="!lineInstance.line_template.is_hidden_in_read_mode; else visibilityOff">visibility</mat-icon>
+                                        <ng-template #visibilityOff>
+                                            <mat-icon>visibility_off</mat-icon>
+                                        </ng-template>
+                    
+                                </button>
+                            </td>
+                        </tr>
+                
+                        <!-- Notes -->
+                        <tr [hidden]="isNotesEmpty(lineInstance) && !editMode">
+                            <td>Notes: </td> 
+
+                            <ng-container *ngFor="let shiftLineTimeBlock of lineInstance.shift_line_time_blocks; index as shiftLineTimeBlockIndex">
+                                <td [ngClass]="{'highlight': shiftLineTimeBlockIndex==currentTimeIndex}"
+                                    matTooltip="{{shiftLineTimeBlock.notes}}"
+                                    matTooltipPosition="above">
+                                    <input #note
+                                        [disabled]="!editMode"
+                                        [style.border]="0"
+                                        [ngModel]="shiftLineTimeBlock.notes" 
+                                        (ngModelChange)="onNotesChange(note.value, shiftLineTimeBlock)">
+                                </td>
+                            </ng-container>
+                            
+                            <td class="button-cell">                    
+                                <button mat-icon-button 
+                                    matTooltip="Removes line from today's schedule (double-click)"
+                                    matTooltipPosition="left"
+                                    color="warn" 
+                                    aria-label="Remove line from schedule."
+                                    [hidden]="!editMode"
+                                    (dblclick)="removeLineInstanceFromSchedule(lineInstance)">
+                                    <mat-icon>clear</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+
+                </table>
+
+            </dts-select-container>
+
+        </ng-container>
+
+        <p class="text-info" [hidden]="!editMode || isLoading || !motherhoodShiftSchedule?.line_instances?.length">Use 'x' to indicate the end of a crew member's scheduled time on a specific line if no one is replacing them.</p>
+
+    </app-fade>
+
+    <div class="row" [hidden]="motherhoodShiftSchedule?.line_instances?.length > 0 || isLoading">
+        <p class="text-info text-center w-100 mt-5">No lines are available for this shift and date.  In edit mode, click the 'New' button.</p>
+    </div>
+
+    <div class="mx-auto" style="width: 70px; margin-top:100px;" [hidden]="!isLoading">
+        <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+</div>

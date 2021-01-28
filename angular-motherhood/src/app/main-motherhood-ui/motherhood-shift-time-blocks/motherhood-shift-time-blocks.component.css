@@ -1,0 +1,26 @@
+#shift-hours-table {
+    table-layout: fixed;
+    border: 1px solid #ccc;
+}
+
+td {
+    width: 65px;
+    height: 25px;
+    max-width: 65px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.highlight-top {
+    color: #17a2b8;
+    box-shadow: 0px -4px 3px -3px #17a2b8;
+}
+
+.highlight-bottom {
+    color: #17a2b8;
+    box-shadow: 0px 4px 3px -3px #17a2b8;
+}
+
+.selectable {
+    cursor: pointer;
+}

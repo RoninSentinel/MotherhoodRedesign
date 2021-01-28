@@ -1,0 +1,91 @@
+<form [formGroup]="qualificationTypeSettingsForm" (ngSubmit)="onSubmit()"> 
+    <h5>Current Qualification Types</h5>
+  
+    <div class="mx-auto" style="width: 70px;" *ngIf="isLoading; else elseBlock">
+      <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null; autoFillFormAfterRowSelection(selection.isSelected(row))"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+          <td mat-footer-cell *matFooterCellDef><button type="button" class="btn btn-danger" [disabled]="!selection.hasValue() || !editingPermissionsEnabled" (dblclick)="onDelete()">Delete</button></td>
+        </ng-container>
+      
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let qualificationType"> {{qualificationType.id}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Qualification </th>
+          <td mat-cell *matCellDef="let qualificationType"> {{qualificationType.name}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Crew Member Type Column -->
+        <ng-container matColumnDef="crew_member_type_id">
+          <th mat-header-cell *matHeaderCellDef> Crew Member Type </th>
+          <td mat-cell *matCellDef="let qualificationType"> {{qualificationType.crew_member_type_id}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row)">
+        </tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+
+    </ng-template>
+  
+  
+    <div class="form-group mt-4">
+      <label>ID Number</label>
+      <input class="form-control" formControlName="qualificationTypeID" type="text" (blur)="updateQualificationTypeFormAfterIDSelected()" placeholder="Provide only if updating a record.">
+    </div>
+
+    <div class="form-group mt-4">
+      <label>Qualification*</label>
+      <input [class.is-invalid]="qualificationTypeName.invalid && qualificationTypeName.touched" class="form-control" formControlName="qualificationTypeName" type="text" required>
+      <small *ngIf="qualificationTypeName.invalid && qualificationTypeName.touched" class="text-danger">Qualification is required.</small>
+    </div>
+
+    <div class="form-group mt-4">
+      <label for="qualificationTypeCrewMemberTypeID">Crew Member Type*</label>
+      <select [class.is-invalid]="qualificationTypeCrewMemberTypeID.invalid && qualificationTypeCrewMemberTypeID.touched" class="form-control" class="form-control" formControlName="qualificationTypeCrewMemberTypeID" required>
+        <option></option>
+        <option *ngFor="let crewMemberType of crewMemberTypeNamesAvailableForSelection">
+          {{crewMemberType}}
+        </option>
+      </select>
+      <small *ngIf="qualificationTypeCrewMemberTypeID.invalid && qualificationTypeCrewMemberTypeID.touched" class="text-danger">Crew Member Type is required.</small>
+    </div>
+  
+    <div class="form-group mt-4">
+      <button type="button" class="btn btn-secondary" [disabled]="qualificationTypeSettingsForm.invalid && qualificationTypeID.errors?.invalidID || !qualificationTypeID.value || !editingPermissionsEnabled" (click)="onUpdate()">Update</button>
+      <button type="button" class="btn btn-primary ml-2" [disabled]="qualificationTypeSettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+    </div>
+
+    <small class="text-info">* indicates a required field.</small>
+
+    <!--{{selection | json}}-->
+  </form>

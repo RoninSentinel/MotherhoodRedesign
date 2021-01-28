@@ -1,0 +1,132 @@
+
+  <form [formGroup]="blockCategorySettingsForm" (ngSubmit)="onSubmit()"> 
+    <h5>Current Block Categories</h5>
+  
+    <div class="mx-auto" style="width: 70px; margin-top:150px" *ngIf="isLoading; else elseBlock">
+      <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+
+    <app-fade [show]="!isLoading">
+      <ng-template #elseBlock>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                            [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null; autoFillFormAfterRowSelection(selection.isSelected(row))"
+                            [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+            <td mat-footer-cell *matFooterCellDef><button type="button" class="btn btn-danger" [disabled]="!selection.hasValue() || !editingPermissionsEnabled" (dblclick)="onDelete()">Delete</button></td>
+          </ng-container>
+        
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> ID </th>
+              <td mat-cell *matCellDef="let blockCategory"> {{blockCategory.id}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let blockCategory"> {{blockCategory.name}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <!-- Short Name Column -->
+          <ng-container matColumnDef="short_name">
+              <th mat-header-cell *matHeaderCellDef> Abbreviation </th>
+              <td mat-cell *matCellDef="let blockCategory"> {{blockCategory.short_name}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <!-- Color Column -->
+          <ng-container matColumnDef="color">
+              <th mat-header-cell *matHeaderCellDef> Color </th>
+          <td mat-cell *matCellDef="let blockCategory" style="color: {{blockCategory.color}};"> {{blockCategory.color}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <!-- Is Active Column -->
+          <ng-container matColumnDef="is_active">
+              <th mat-header-cell *matHeaderCellDef> Is Active? </th>
+              <td mat-cell *matCellDef="let blockCategory"> {{blockCategory.is_active | yesNo}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <!-- Squadron ID Column -->
+          <ng-container matColumnDef="squadron_id">
+              <th mat-header-cell *matHeaderCellDef> Squadron </th>
+              <td mat-cell *matCellDef="let blockCategory"> {{blockCategory.squadron_id | uppercase}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              (click)="selection.toggle(row); autoFillFormAfterRowSelection(selection.isSelected(row))">
+          </tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+
+      </ng-template>
+    
+
+      <div class="form-group mt-4">
+        <label>ID Number</label>
+        <input class="form-control" formControlName="blockCategoryID" (blur)="updateBlockCategoryFormAfterIDSelected()" type="text" placeholder="Provide only if updating a record.">
+        <small *ngIf="blockCategoryID.errors?.invalidID && blockCategoryID.touched && blockCategoryID.value" class="text-info">ID not available for update.</small>
+      </div>
+
+      <div class="form-group mt-4">
+        <label>Name*</label>
+        <input [class.is-invalid]="blockCategoryName.invalid && blockCategoryName.touched && !blockCategoryName.errors?.forbiddenName" class="form-control" formControlName="blockCategoryName" type="text" required>
+        <small *ngIf="blockCategoryName.invalid && blockCategoryName.touched && !blockCategoryName.errors?.forbiddenName" class="text-danger">Category name is required.</small>
+        <small *ngIf="blockCategoryName.errors?.forbiddenName" class="text-info">Only unique names can be added.</small>
+      </div>
+
+      <div class="form-group mt-4">
+        <label>Abbreviation*</label>
+        <input [class.is-invalid]="blockCategoryShortName.invalid && blockCategoryShortName.touched" class="form-control" formControlName="blockCategoryShortName" type="text" required>
+        <small *ngIf="blockCategoryShortName.invalid && blockCategoryShortName.touched" class="text-danger">Abbreviation is required.</small>
+      </div>
+
+      <div class="form-group mt-4">
+          <label>Color* <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle></label>
+          <input [class.is-invalid]="blockCategoryColor.invalid && blockCategoryColor.touched" class="form-control" formControlName="blockCategoryColor" type="text" [ngxMatColorPicker]="picker" (click)="picker.open()" required readonly>
+          <ngx-mat-color-picker #picker></ngx-mat-color-picker>
+          <small *ngIf="blockCategoryColor.invalid && blockCategoryColor.touched" class="text-danger">Color is required.</small>
+      </div>
+
+      <div class="form-check mt-4">
+        <input class="form-check-input" type="checkbox" value="" formControlName="blockCategoryIsActive">
+        <label class="form-check-label" for="defaultCheck1">
+          Active
+        </label>
+      </div>
+
+      <div class="form-group mt-4">
+        <label>Squadron*</label>
+        <input [class.is-invalid]="blockCategorySquadronID.invalid && blockCategorySquadronID.touched" class="form-control" formControlName="blockCategorySquadronID" type="text" required readonly>
+        <small *ngIf="blockCategorySquadronID.invalid && blockCategorySquadronID.touched" class="text-danger">Squadron is required.</small>
+      </div>
+
+    
+      <div class="form-group mt-4">
+        <button type="button" class="btn btn-secondary" [disabled]="blockCategoryID.errors?.invalidID || !blockCategoryID.value || !editingPermissionsEnabled" (click)="onUpdate()">Update</button>
+        <button type="button" class="btn btn-primary ml-2" [disabled]="blockCategorySettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+      </div>
+
+      <small class="text-info">* indicates a required field.</small>
+    </app-fade>
+    <!--{{selection | json}}-->
+  </form>

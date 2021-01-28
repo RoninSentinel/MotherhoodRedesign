@@ -1,0 +1,19 @@
+@media all and (min-width: 900px) {
+    tr  {
+      td {
+        vertical-align: middle !important;
+        color: white;
+      }
+      span {
+        &:not([class]) {
+          padding: 1rem 1rem;
+        }
+      }
+    }
+  }
+
+  .card {
+      background-color: rgb(46, 46, 46);
+      color: rgb(46, 46, 46);
+      
+  }

@@ -1,0 +1,200 @@
+<form [formGroup]="lineTemplateSettingsForm" (ngSubmit)="onSubmit()"> 
+    <h5>Current Line Templates</h5>
+  
+    <div class="mx-auto" style="width: 70px;" *ngIf="isLoading; else elseBlock">
+      <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null; autoFillFormAfterRowSelection(selection.isSelected(row))"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+          <td mat-footer-cell *matFooterCellDef><button type="button" class="btn btn-danger" [disabled]="!selection.hasValue() || !editingPermissionsEnabled" (dblclick)="onDelete()">Delete</button></td>
+        </ng-container>
+      
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.id}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.name}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Line Type ID Column -->
+        <ng-container matColumnDef="line_type_id">
+            <th mat-header-cell *matHeaderCellDef> Line Type </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.line_type_id}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Color Column -->
+        <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef> Color </th>
+        <td mat-cell *matCellDef="let lineTemplate" style="color: {{lineTemplate.color}};"> {{lineTemplate.color}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Is Active Column -->
+        <ng-container matColumnDef="is_active">
+            <th mat-header-cell *matHeaderCellDef> Is Active? </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.is_active | yesNo}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Order Preference Column -->
+        <ng-container matColumnDef="order_preference">
+            <th mat-header-cell *matHeaderCellDef> Order Preference </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.order_preference}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Call Sign Column -->
+        <ng-container matColumnDef="call_sign">
+            <th mat-header-cell *matHeaderCellDef> Call Sign </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.call_sign}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Squadron ID Column -->
+        <ng-container matColumnDef="squadron_id">
+            <th mat-header-cell *matHeaderCellDef> Squadron </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.squadron_id | uppercase}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- AOR Column -->
+        <ng-container matColumnDef="aor">
+            <th mat-header-cell *matHeaderCellDef> AOR </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.aor_id}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Is Hidden in Read Mode Column -->
+        <ng-container matColumnDef="is_hidden_in_read_mode">
+            <th mat-header-cell *matHeaderCellDef> Hide? </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.is_hidden_in_read_mode | yesNo}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Extra Field Name Column -->
+        <ng-container matColumnDef="extra_field_name">
+            <th mat-header-cell *matHeaderCellDef> Extra Field </th>
+            <td mat-cell *matCellDef="let lineTemplate"> {{lineTemplate.extra_field_name}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row); autoFillFormAfterRowSelection(selection.isSelected(row))">
+        </tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+
+    </ng-template>
+  
+    <div class="form-group mt-4">
+      <label>ID Number</label>
+      <input class="form-control" formControlName="lineTemplateID" type="text" (blur)="updateLineTemplateFormAfterIDSelected()" [autoFocus]="true" placeholder="Provide only if updating a record.">
+      <small *ngIf="lineTemplateID.errors?.invalidID && lineTemplateID.touched && lineTemplateID.value" class="text-info">ID not available for update.</small>
+    </div>
+
+    <div class="form-group mt-4">
+      <label>Name*</label>
+      <input [class.is-invalid]="lineTemplateName.invalid && lineTemplateName.touched" class="form-control" formControlName="lineTemplateName" type="text" required>
+      <small *ngIf="lineTemplateName.invalid && lineTemplateName.touched" class="text-danger">Name is required.</small>
+    </div>
+
+    <div class="form-group mt-4">
+      <label for="lineTemplateLineTypeID">Line Type</label>
+      <select class="form-control" formControlName="lineTemplateLineTypeID">
+        <option></option>
+        <option *ngFor="let line_type of lineTypesAvailableForSelection">
+          {{line_type}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group mt-4">
+      <label>Color* <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle></label>
+      <input [class.is-invalid]="lineTemplateColor.invalid && lineTemplateColor.touched" class="form-control" formControlName="lineTemplateColor" type="text" [ngxMatColorPicker]="picker" (click)="picker.open()" required readonly>
+      <ngx-mat-color-picker #picker></ngx-mat-color-picker>
+      <small *ngIf="lineTemplateColor.invalid && lineTemplateColor.touched" class="text-danger">Color is required.</small>
+    </div>
+
+    <div class="form-check mt-4">
+      <input class="form-check-input" type="checkbox" value="" formControlName="lineTemplateIsActive">
+      <label class="form-check-label">
+        Active
+      </label>
+    </div>
+
+    <div class="form-group mt-4">
+        <label>Order Preference</label>
+        <input class="form-control" formControlName="lineTemplateOrderPreference" type="number" placeholder="0">
+    </div>
+
+    <div class="form-group mt-4">
+        <label>Call Sign</label>
+        <input class="form-control" formControlName="lineTemplateCallSign" type="text">
+      </div>
+
+    <div class="form-group mt-4">
+        <label>Squadron*</label>
+        <input [class.is-invalid]="lineTemplateSquadronID.invalid && lineTemplateSquadronID.touched" class="form-control" formControlName="lineTemplateSquadronID" type="text" required readonly>
+        <small *ngIf="lineTemplateSquadronID.invalid && lineTemplateSquadronID.touched" class="text-danger">Squadron is required.</small>
+      </div>
+
+    <div class="form-group mt-4">
+      <label for="lineTemplateAORID">AOR*</label>
+      <select [class.is-invalid]="lineTemplateAORID.invalid && lineTemplateAORID.touched" class="form-control" formControlName="lineTemplateAORID" required>
+        <option></option>
+        <option *ngFor="let aor of aorsAvailableForSelection">
+          {{aor}}
+        </option>
+      </select>
+      <small *ngIf="lineTemplateAORID.invalid && lineTemplateAORID.touched" class="text-danger">AOR is required.</small>
+    </div>
+
+    <div class="form-check mt-4">
+        <input class="form-check-input" type="checkbox" value="" formControlName="lineTemplateIsHiddenInReadMode">
+        <label class="form-check-label">
+          Hide
+        </label>
+    </div>
+
+    <div class="form-group mt-4">
+        <label>Extra Field</label>
+        <input class="form-control" formControlName="lineTemplateExtraFieldName" type="text" placeholder="IP/ISO">
+    </div>
+
+  
+    <div class="form-group mt-4">
+      <button type="button" class="btn btn-secondary" (click)="onUpdate()" [disabled]="!editingPermissionsEnabled">Update</button>
+      <button type="button" class="btn btn-primary ml-2" [disabled]="lineTemplateSettingsForm.invalid || !editingPermissionsEnabled" type="submit">Add</button>
+    </div>
+
+    <small class="text-info">* indicates a required field.</small>
+
+    <!--{{selection | json}}-->
+  </form>

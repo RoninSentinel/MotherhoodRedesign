@@ -1,0 +1,9 @@
+mat-form-field {
+    width: 100%;
+}
+
+.mat-input-element:disabled {
+    color: inherit;
+}
+
+::ng-deep .cdk-overlay-container{ z-index:2000; }

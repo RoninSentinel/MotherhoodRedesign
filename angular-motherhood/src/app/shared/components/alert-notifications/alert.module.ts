@@ -1,0 +1,13 @@
+// https://github.com/cornflourblue/angular-8-alert-notifications/blob/master/src/app/_alert/alert.module.ts
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { AlertComponent } from './alert.component';
+
+@NgModule({
+    imports: [CommonModule],
+    declarations: [AlertComponent],
+    exports: [AlertComponent]
+})
+export class AlertModule { }

@@ -1,0 +1,38 @@
+<div class="row mt-0 justify-content-center">
+    <div *ngIf="errorRetrievingShiftData;">
+        <small class="text-danger">Error retrieving shift hours.  Confirm only one active shift template exists for this shift and URL contains correct squadron/shift spelling.</small>
+    </div>
+
+    <app-fade [show]="!isLoading && !errorRetrievingShiftData">
+        <div [hidden]="isLoading || errorRetrievingShiftData" #shiftHours>
+            <table id="shift-hours-table">
+                <tr>
+                    <td>UTC/Zulu</td>
+                    <td *ngFor="let timeBlock of timeBlocks; index as i"
+                        [ngClass]="{'highlight-top': i==currentTimeIndex}"
+                    >
+                        {{timeBlock | date: 'HHmm' : 'UTC'}}
+                    </td>
+                    <td></td>
+                </tr>
+                    
+                <tr>
+                    <td matTooltip="Toggle between Creech and local (computer) time."
+                        class="selectable"
+                        [ngClass]="{'text-info': usePacificTimeZone}"
+                        (click)="toggleLocalTime()"><span *ngIf="usePacificTimeZone">Creech</span><span *ngIf="!usePacificTimeZone">Local</span></td>
+                    <td *ngFor="let timeBlock of timeBlocks; index as i"
+                        [ngClass]="{'highlight-bottom': i==currentTimeIndex}"
+                    >
+                        <!--{{timeBlock | date: 'HHmm' }}-->
+                        {{getLocalTime(timeBlock)}}
+                        
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </app-fade>
+    <!--{{shiftTemplate | json}}-->
+
+</div>

@@ -1,0 +1,4 @@
+[2020-12-01 18:16:51][8c71fa70-9348-4e4e-a524-300bf64fa925] Processing: App\Events\PublishBroadcastEvent
+[2020-12-01 18:16:51][8c71fa70-9348-4e4e-a524-300bf64fa925] Processed:  App\Events\PublishBroadcastEvent
+[2020-12-01 18:18:43][c28f3156-2e12-4bc7-8c74-a63ae0819c27] Processing: App\Events\PublishBroadcastEvent
+[2020-12-01 18:18:43][c28f3156-2e12-4bc7-8c74-a63ae0819c27] Processed:  App\Events\PublishBroadcastEvent

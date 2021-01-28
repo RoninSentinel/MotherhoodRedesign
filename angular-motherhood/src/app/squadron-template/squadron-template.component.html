@@ -1,0 +1,38 @@
+<body>
+<div class="container-fluid wrapper-container pt-4 pb-4 squadron-wrapper" [ngClass]="defaultStyle ? 'whole-container-1' : 'whole-container-2'">
+  <div class="row pb-5">
+    <div class="container col-12">
+      <div class="col-sm-2 top-bar align-content-end">  <button type="button" class="btn btn-dark" (mouseup)="defaultStyle = !defaultStyle">Toggle Theme</button></div>
+<app-squadron-header></app-squadron-header>
+</div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 schedule"><h2 class="mt-1">Better Scheduler</h2>
+        <app-main-ui></app-main-ui>
+        </div>
+    </div>
+</div>
+   <div class="container-fluid">
+    <!--<div class="row">
+    <div class="container col-9 border-dark border-darken-1 border-top-1">
+      <app-squadron-scheduler></app-squadron-scheduler>
+    </div>
+    <div class="container col-3">
+      <h2>Roster</h2>
+      <app-squadron-roster></app-squadron-roster>
+    </div>
+  </div> -->
+  <div class="row pt-4">
+    <div class="container col-9 border-dark border-darken-1 border-top-1">
+      Main Schedule Option 2
+    </div>
+    <div class="container col-3">
+      Roster Option 2
+    </div>
+  </div>
+  </div>
+</div> <!-- end wrapper -->
+
+</body>
+

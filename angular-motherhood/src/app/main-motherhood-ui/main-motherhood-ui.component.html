@@ -1,0 +1,77 @@
+
+<mat-toolbar color="primary">
+    <button mat-icon-button 
+            aria-label="Settings toggle."
+           (click)="navigateMenu('settings')"
+           [disabled]="!editMode">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <span>{{currentSquadron | uppercase}}: {{currentShift | titlecase}}</span>
+    <span class="toolbar-spacer"></span>
+
+    <ng-container *ngIf="currentSquadron && currentShift">
+    <motherhood-menu-controls (publishMotherhoodEvent)="publishMotherhood($event)"
+                                (createMotherhoodEvent)="createNewMotherhood($event)" 
+                                (loadMotherhoodEvent)="refreshMotherhood($event)" 
+                                (toggleEditModeEvent)="refreshEditModeStatus($event)"
+                                (clearMotherhoodEvent)="clearMotherhoodSchedule($event)"
+                                (deleteMotherhoodEvent)="deleteMotherhoodSchedule($event)"
+                                (darkModeSwitched)="switchTheme($event)"
+                                [shiftDate]="shiftDate"></motherhood-menu-controls>
+    </ng-container>
+</mat-toolbar>
+
+
+<div class="container-fluid p-4">
+
+    <div class="row">
+        <div class="fixed pl-2">
+
+            <motherhood-datetime-banner [firstLine]="firstLine"
+                                        [editMode]="editMode"
+                                        (shiftDateChangeEvent)="updateMotherhoodDate($event)"
+                                        (currentTimeChangeEvent)="updateMotherhoodCurrentTime($event)"></motherhood-datetime-banner>
+
+            <motherhood-block-colors [editMode]="editMode"
+                                     (newBlockCategorySelectedEvent)="updateBlockCategorySelected($event)"></motherhood-block-colors>  
+
+            <div class="sticky-top">
+                <motherhood-shift-time-blocks [currentTime]="currentTime"
+                                              [shiftDate]="shiftDate"
+                                              (newTimeIndexEvent)="updateTimeIndex($event)"></motherhood-shift-time-blocks>                    
+            </div>
+            
+            <motherhood-gcs-lines [selectedBlockCategory]="selectedBlockCategory"
+                                  [editMode]="editMode"
+                                  (lineRemovedFromScheduleEvent)="updateEligibleLinesForSchedule($event)"></motherhood-gcs-lines>
+
+            <motherhood-add-line [editMode]="editMode"></motherhood-add-line>
+
+            <motherhood-crew-summary (scheduleConflictEvent)="updateHoursBasedOnConflicts($event)"
+                                     [editMode]="editMode"
+                                     [hidden]="!motherhoodShiftSchedule?.line_instances?.length"></motherhood-crew-summary>
+        </div>
+
+        <div class="col">
+            <ng-container *ngIf="currentSquadron && currentShift">
+                <motherhood-crew-roster [editMode]="editMode"
+                                        (crewRosterRowSelectedEvent)="addCrewMemberToFlightOrders($event)"
+                                        [hidden]="!motherhoodShiftSchedule?.line_instances?.length"></motherhood-crew-roster>
+                
+                <motherhood-flight-orders [shiftDate]="shiftDate"
+                                          [editMode]="editMode"
+                                          [crewMemberToAddToFlightOrders]="crewMemberToAddToFlightOrders"
+                                          (flightOrderRowClickedEvent)="addCrewMemberToSelectedBlocksFromFlightOrder($event)"
+                                          (flightOrdersUpdatedEvent)="updateFlightOrders($event)"
+                                          (callSignPreferenceClickedEvent)="updateCallSignPreference($event)"
+                                          [hidden]="!motherhoodShiftSchedule?.line_instances?.length"></motherhood-flight-orders>
+            </ng-container>
+        </div>
+        
+    </div>
+</div>
+
+
+<router-outlet></router-outlet>
+

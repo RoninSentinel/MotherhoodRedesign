@@ -1,0 +1,41 @@
+<div class="form-group mt-4">
+    <label for="qualificationsCtrl">Qualifications</label>
+
+    <mat-chip-list #chipList aria-label="Qualification selection">
+        <mat-chip
+        *ngFor="let qualification of qualificationNamesAssigned"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(qualification)">
+        {{qualification}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let qualification of filteredQualifications | async" [value]="qualification">
+        {{qualification}}
+        </mat-option>
+    </mat-autocomplete>
+
+
+    <input
+    class="form-control"
+    placeholder="New qualification..."
+    #qualificationInput
+    [formControl]="qualificationsCtrl"
+    [matAutocomplete]="auto"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    (matChipInputTokenEnd)="add($event)">
+
+    <small *ngIf="duplicateNameError" class="text-danger ml-1">The qualification already exists.</small>
+    <small *ngIf="invalidNameError" class="text-danger ml-1">Invalid qualification.</small>
+
+</div>
+
+
+
+
+
+  

@@ -1,0 +1,38 @@
+<div class="row mt-3 justify-content-center" [hidden]="!editMode || templateOptions?.length == 0">
+
+    <form #addLineToScheduleForm (ngSubmit)="addActiveLineToSchedule(lineName.value); addLineToScheduleForm.reset();">
+        
+        <mat-form-field>
+            <input  type="text"
+                    #lineName
+                    placeholder="Add squadron line."
+                    aria-label="Line to add to schedule."
+                    matInput
+                    required
+                    [formControl]="addLineControl"
+                    [matAutocomplete]="auto">
+
+            <mat-error *ngIf="addLineControl.errors?.unknownValue && addLineControl.touched">Name must be listed.</mat-error>
+
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredTemplateOptions | async" [value]="option">
+                    {{option}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <button mat-icon-button 
+                aria-label="Add active line to the schedule."
+                [disabled]="addLineControl.invalid || isLoading"
+                [hidden]="isLoading"
+                type="submit">
+            <mat-icon>playlist_add</mat-icon>
+        </button>
+    </form>
+
+    <div class="mx-auto" style="width: 70px; margin-top:10px;" [hidden]="!isLoading">
+        <mat-spinner diameter="30" mode="indeterminate"></mat-spinner>
+    </div>
+
+</div>
+  
